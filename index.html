@@ -1,62 +1,63 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bildschirmschoner</title>
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: black;
-    }
-
-    video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover; /* Füllt den gesamten Bildschirm */
-        background: black;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background: #0078ff;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<video autoplay muted loop playsinline>
-    <source src="The_One_Ring.mp4" type="video/mp4">
-    Dein Browser unterstützt keine Videos.
-</video>
+<div class="box">
+    <h2>Video herunterladen</h2>
+    <input type="text" id="videoUrl" placeholder="Direkter MP4-Link">
+    <button onclick="downloadVideo()">Download</button>
+</div>
 
 <script>
-const video = document.querySelector("video");
+function downloadVideo() {
+    const url = document.getElementById("videoUrl").value.trim();
 
-// Falls Autoplay blockiert wird
-video.play().catch(() => {
-    document.body.addEventListener("click", () => {
-        video.play();
-    }, { once: true });
-});
-
-// Taste F für Browser-Vollbild
-document.addEventListener("keydown", (e) => {
-    if (e.key.toLowerCase() === "f") {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-        } else {
-            document.exitFullscreen();
-        }
+    if (!url) {
+        alert("Bitte einen Videolink eingeben.");
+        return;
     }
-});
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 </script>
 
 </body>
